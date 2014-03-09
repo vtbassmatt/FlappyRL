@@ -17,23 +17,29 @@ class Hero {
     console.print("@",xPos,yPos);
     
     // show where the player will be next frame
-    fill(127);
-    console.print("@",xPos+1, computeNextFrame(false));
+    for(int i = 1; i < 6; i++) {
+      fill(255 / (i+1));
+      console.print("@",xPos+i, futureFrame(i));
+    }
   }
   
-  int computeNextFrame(boolean commit) {
-    // design question: should we update position using the old velocity?
-    // this implementation uses the new
-    int newYVeloc = yVeloc + yAccel;
-    int newYPos = yPos + newYVeloc;
+  int futureFrame(int delta) {
+    if(delta < 0) {
+      return yPos;
+    }
     
-    if(commit) {
-      yVeloc = newYVeloc;
-      yPos = newYPos;
+    int newYVeloc = yVeloc;
+    int newYPos = yPos;
+    
+    while(delta > 0) {
+      newYVeloc = newYVeloc + yAccel;
+      newYPos = newYPos + newYVeloc;
+      delta--;
     }
     
     return newYPos;
   }
+
 }
 
 Hero hero;
