@@ -80,7 +80,7 @@ void draw() {
   
   // hello world
   fill(127,0,0);
-  for(int i = 0; i < 24; i++) {
+  for(int i = 0; i < console.rows; i++) {
     console.print("Hello FlappyRL",i,i);
   }
   
@@ -90,7 +90,7 @@ void draw() {
   fill(0,255,0);
   for(int i = 0; i < console.columns + 1; i++) {
     if(pipes[i] > 0) {
-      console.print("=",i,23);
+      console.print("=",i,console.rows - 1);
     }
   }
 }
