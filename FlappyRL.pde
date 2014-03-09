@@ -140,6 +140,11 @@ void keyPressed() {
     case 39:  // right arrow
       updateTheWorld();
       break;
+      
+    case 38:  // up arrow
+      hero.yVeloc = -2;
+      updateTheWorld();
+      break;
   }
 }
 
