@@ -60,7 +60,11 @@ class Pipes {
     fill(0,255,0);
     for(int i = 0; i < console.columns + 1; i++) {
       if(pipes[i] > 0) {
-        console.print("=",i,console.rows - 1);
+        for(int j = 0; j < console.rows; j++) {
+          if(Math.abs(pipes[i] - j) > 1) {
+            console.print("=",i,j);
+          }
+        }
       }
     }
   }
