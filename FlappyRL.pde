@@ -1,8 +1,19 @@
-// hero motion
-int heroYAccel = 1;  // positive numbers point down - should fix that
-int heroYVeloc = 4;
-int heroYPos = 24 - 17;  // closer to the top than the bottom
-int heroXPos = 5;
+class Hero {
+  // hero motion
+  int yAccel;  // positive numbers point down - should fix that
+  int yVeloc;
+  int yPos;
+  int xPos;
+
+  Hero() {
+    yAccel = 1;
+    yVeloc = 4;
+    yPos = 24 - 17;  // closer to the top than the bottom
+    xPos = 5;
+  }
+}
+
+Hero hero;
 
 // the world
 int[] pipes = new int[120];
@@ -17,6 +28,8 @@ int fontSize = 16;
 int atSignWidth;
 
 void setup() {
+  hero = new Hero();
+  
   for(int i = 12; i < 120; i += 12) {
     pipes[i] = 17;
   }
@@ -42,7 +55,7 @@ void draw() {
   
   // hero
   fill(0,0,255);
-  text("@",colToPixel(heroXPos),rowToPixel(heroYPos));
+  text("@",colToPixel(hero.xPos),rowToPixel(hero.yPos));
   
   // pipes
   fill(0,255,0);
