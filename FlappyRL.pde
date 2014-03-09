@@ -144,8 +144,9 @@ void keyPressed() {
 }
 
 void updateTheWorld() {
-  // temporary: move the hero right
-  // TODO: move the world left instead
-  hero.xPos += 1;
   hero.physicsTick();
+  for(int i = 1; i < pipes.length - 1; i++) {
+    pipes[i-1] = pipes[i];
+  }
+  pipes[pipes.length-1] = 0;
 }
