@@ -1,7 +1,11 @@
 // hero motion
-int yAccel = -1;
-int yVeloc = 4;
-int yPos = 17;
+int heroYAccel = 1;  // positive numbers point down - should fix that
+int heroYVeloc = 4;
+int heroYPos = 24 - 17;  // closer to the top than the bottom
+int heroXPos = 5;
+
+// the world
+int[] pipes = new int[120];
 
 // display
 int terminalColumns = 80;
@@ -13,6 +17,9 @@ int fontSize = 16;
 int atSignWidth;
 
 void setup() {
+  for(int i = 12; i < 120; i += 12) {
+    pipes[i] = 17;
+  }
   font = loadFont("Menlo-Regular-16.vlw");
   textFont(font);
   
@@ -26,9 +33,23 @@ void setup() {
 
 void draw() {
   background(0);
-  fill(255,0,0);
+  
+  // hello world
+  fill(127,0,0);
   for(int i = 0; i < 24; i++) {
-    text("Hello FlappyRL",colToPixel(0),rowToPixel(i));
+    text("Hello FlappyRL",colToPixel(i),rowToPixel(i));
+  }
+  
+  // hero
+  fill(0,0,255);
+  text("@",colToPixel(heroXPos),rowToPixel(heroYPos));
+  
+  // pipes
+  fill(0,255,0);
+  for(int i = 0; i < terminalColumns + 1; i++) {
+    if(pipes[i] > 0) {
+      text("=",colToPixel(i),rowToPixel(23));
+    }
   }
 }
 
