@@ -1,6 +1,6 @@
 class Hero {
-  // hero motion
-  int yAccel;  // positive numbers point down - should fix that
+  // motion
+  int yAccel;  // positive numbers point down - consider fixing
   int yVeloc;
   int yPos;
   int xPos;
@@ -47,6 +47,32 @@ class Hero {
 
 }
 
+class Pipes {
+  int[] pipes = new int[120];
+  
+  Pipes() {
+    for(int i = 12; i < pipes.length; i += 12) {
+      pipes[i] = 17;
+    }
+  }
+  
+  void draw(Console console) {
+    fill(0,255,0);
+    for(int i = 0; i < console.columns + 1; i++) {
+      if(pipes[i] > 0) {
+        console.print("=",i,console.rows - 1);
+      }
+    }
+  }
+
+  void advance () {
+    for(int i = 1; i < pipes.length - 1; i++) {
+      pipes[i-1] = pipes[i];
+    }
+    pipes[pipes.length-1] = 0;
+  }
+}
+
 // display
 class Console {
   int columns;
@@ -88,21 +114,15 @@ class Console {
 }
 
 Hero hero;
+Pipes pipes;
 Console console;
-
-// the world
-int[] pipes = new int[120];
 
 // debugging
 int lastKeyCode;
 
 void setup() {
   hero = new Hero();
-  
-  for(int i = 12; i < 120; i += 12) {
-    pipes[i] = 17;
-  }
-  
+  pipes = new Pipes();
   console = new Console();
   
   lastKeyCode = 0;
@@ -117,15 +137,8 @@ void draw() {
     console.print("Hello FlappyRL",i,i);
   }
   
+  pipes.draw(console);
   hero.draw(console);
-  
-  // pipes
-  fill(0,255,0);
-  for(int i = 0; i < console.columns + 1; i++) {
-    if(pipes[i] > 0) {
-      console.print("=",i,console.rows - 1);
-    }
-  }
   
   // debugging
   if(lastKeyCode > 0) {
@@ -142,7 +155,7 @@ void keyPressed() {
       break;
       
     case 38:  // up arrow
-      hero.yVeloc = -2;
+      hero.yVeloc = -4;
       updateTheWorld();
       break;
   }
@@ -150,8 +163,5 @@ void keyPressed() {
 
 void updateTheWorld() {
   hero.physicsTick();
-  for(int i = 1; i < pipes.length - 1; i++) {
-    pipes[i-1] = pipes[i];
-  }
-  pipes[pipes.length-1] = 0;
+  pipes.advance();
 }
