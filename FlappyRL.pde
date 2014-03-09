@@ -39,13 +39,13 @@ class Hero {
     
     return newYPos;
   }
+  
+  void physicsTick() {
+    yVeloc = yVeloc + yAccel;
+    yPos = yPos + yVeloc;
+  }
 
 }
-
-Hero hero;
-
-// the world
-int[] pipes = new int[120];
 
 // display
 class Console {
@@ -87,7 +87,14 @@ class Console {
   }
 }
 
+Hero hero;
 Console console;
+
+// the world
+int[] pipes = new int[120];
+
+// debugging
+int lastKeyCode;
 
 void setup() {
   hero = new Hero();
@@ -97,6 +104,8 @@ void setup() {
   }
   
   console = new Console();
+  
+  lastKeyCode = 0;
 }
 
 void draw() {
@@ -117,5 +126,26 @@ void draw() {
       console.print("=",i,console.rows - 1);
     }
   }
+  
+  // debugging
+  if(lastKeyCode > 0) {
+    console.print(Integer.toString(lastKeyCode),0,0);
+  }
 }
 
+void keyPressed() {
+  lastKeyCode = keyCode;
+  
+  switch(keyCode) {
+    case 39:  // right arrow
+      updateTheWorld();
+      break;
+  }
+}
+
+void updateTheWorld() {
+  // temporary: move the hero right
+  // TODO: move the world left instead
+  hero.xPos += 1;
+  hero.physicsTick();
+}
