@@ -7,7 +7,7 @@ class Hero {
 
   Hero() {
     yAccel = 1;
-    yVeloc = 4;
+    yVeloc = 2;
     yPos = 24 - 17;  // closer to the top than the bottom
     xPos = 5;
   }
@@ -15,6 +15,24 @@ class Hero {
   void draw(Console console) {
     fill(0,0,255);
     console.print("@",xPos,yPos);
+    
+    // show where the player will be next frame
+    fill(127);
+    console.print("@",xPos+1, computeNextFrame(false));
+  }
+  
+  int computeNextFrame(boolean commit) {
+    // design question: should we update position using the old velocity?
+    // this implementation uses the new
+    int newYVeloc = yVeloc + yAccel;
+    int newYPos = yPos + newYVeloc;
+    
+    if(commit) {
+      yVeloc = newYVeloc;
+      yPos = newYPos;
+    }
+    
+    return newYPos;
   }
 }
 
