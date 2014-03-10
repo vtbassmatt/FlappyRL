@@ -1,3 +1,14 @@
+/*
+TODO:
+  - Generate pipes with different-height openings
+  - Generate pipes at different spacings
+  - Keep score
+  - Draw the pipes a little nicer (vertical sections with caps)
+  - Generate parallax scrolling background
+  - Animate the main character?
+  - Add spells/potions/monsters?
+*/
+
 static class GameState {
   static final int NOT_STARTED = 0;
   static final int ALIVE = 1;
