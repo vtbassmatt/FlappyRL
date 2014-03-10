@@ -1,3 +1,9 @@
+static class GameState {
+  static final int NOT_STARTED = 0;
+  static final int ALIVE = 1;
+  static final int DEAD = 2;
+}
+
 class Hero {
   // motion
   int yAccel;  // positive numbers point down - consider fixing
@@ -131,16 +137,21 @@ class Console {
 Hero hero;
 Pipes pipes;
 Console console;
+int state;
 
 // debugging
 int lastKeyCode;
 
 void setup() {
+  state = GameState.NOT_STARTED;
   hero = new Hero();
   pipes = new Pipes();
   console = new Console();
   
   lastKeyCode = 0;
+  
+  // TODO: make first keypress send you into ALIVE
+  state = GameState.ALIVE;
 }
 
 void draw() {
@@ -153,7 +164,12 @@ void draw() {
   }
   
   pipes.draw(console);
-  hero.draw(console);
+  if(state == GameState.ALIVE) {
+    hero.draw(console);
+  } else {
+    fill(200,0,0);
+    console.print("You are dead", console.columns / 2 - 6, console.rows / 2);
+  }
   
   // debugging
   if(lastKeyCode > 0) {
@@ -164,15 +180,17 @@ void draw() {
 void keyPressed() {
   lastKeyCode = keyCode;
   
-  switch(keyCode) {
-    case 39:  // right arrow
-      updateTheWorld();
-      break;
-      
-    case 38:  // up arrow
-      hero.yVeloc -= 2;
-      updateTheWorld();
-      break;
+  if(state == GameState.ALIVE) {
+    switch(keyCode) {
+      case 39:  // right arrow
+        updateTheWorld();
+        break;
+        
+      case 38:  // up arrow
+        hero.yVeloc -= 2;
+        updateTheWorld();
+        break;
+    }
   }
 }
 
@@ -187,11 +205,14 @@ void checkCollisions() {
   if(hero.yPos >= console.rows) {
     // crashed into ground
     println("crashed into ground");
+    state = GameState.DEAD;
   } else if(hero.yPos < 0) {
     // soared off top
     println("soared into the sun");
+    state = GameState.DEAD;
   } else if(pipes.collided(hero)) {
     // collided with a pipe
     println("hit a pipe");
+    state = GameState.DEAD;
   }
 }
