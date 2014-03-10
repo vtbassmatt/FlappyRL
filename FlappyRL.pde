@@ -13,7 +13,7 @@ class Hero {
 
   Hero() {
     yAccel = 1;
-    yVeloc = 2;
+    yVeloc = -1;
     yPos = 24 - 17;  // closer to the top than the bottom
     xPos = 5;
   }
@@ -150,31 +150,50 @@ void setup() {
   
   lastKeyCode = 0;
   
-  // TODO: make first keypress send you into ALIVE
+  // temporary: remove this line to bring back the title screen
   state = GameState.ALIVE;
 }
 
 void draw() {
   background(0);
   
-  // hello world
-  fill(127,0,0);
-  for(int i = 0; i < console.rows; i++) {
-    console.print("Hello FlappyRL",i,i);
-  }
-  
-  pipes.draw(console);
-  drawGround();
-  
-  if(state == GameState.ALIVE) {
-    hero.draw(console);
+  if(state == GameState.NOT_STARTED) {
+      fill(0,200,0);
+      String[] instructions = {
+        "Welcome to FlappyRL.",
+        "",
+        "Controls: Right arrow to advance, up arrow to flap your wings.",
+        "Gravity is always trying to pull you down.",
+        "",
+        "Press spacebar to begin."
+      };
+      for(int i = 0; i < instructions.length; i++) {
+        String instruc = instructions[i];
+        console.print(instruc, (console.columns / 2) - (instruc.length() / 2), (console.rows / 2) + i - (instructions.length / 2));
+      }
   } else {
-    fill(200,0,0);
-    console.print("You are dead", console.columns / 2 - 6, console.rows / 2);
+  
+    // hello world
+    fill(127,0,0);
+    for(int i = 0; i < console.rows; i++) {
+      console.print("Hello FlappyRL",i,i);
+    }
+    
+    pipes.draw(console);
+    drawGround();
+    
+    if(state == GameState.ALIVE) {
+      hero.draw(console);
+    } else {
+      fill(200,0,0);
+      console.print("You are dead", console.columns / 2 - 6, console.rows / 2);
+    }
+
   }
   
   // debugging
   if(lastKeyCode > 0) {
+    fill(127);
     console.print(Integer.toString(lastKeyCode),0,0);
   }
 }
@@ -199,6 +218,10 @@ void keyPressed() {
         hero.yVeloc = -2;
         updateTheWorld();
         break;
+    }
+  } else if(state == GameState.NOT_STARTED) {
+    if(keyCode == 32) {
+      state = GameState.ALIVE;
     }
   }
 }
