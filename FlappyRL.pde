@@ -1,9 +1,9 @@
 /*
 TODO:
-  - Generate pipes at different spacings
   - Keep score
   - Draw the pipes a little nicer (vertical sections with caps)
   - Generate parallax scrolling background
+  - Make some pipes fatter than others
   - Animate the main character?
   - Add spells/potions/monsters?
 */
@@ -29,8 +29,8 @@ class Hero {
   }
   
   void draw(Console console) {
-    //fill(0,0,255);
-    fill(255,0,255);  // temporary - f.lux hides the character
+    fill(0,0,255);
+    //fill(255,0,255);  // temporary - f.lux hides the character
     console.print("@",xPos,yPos);
     
     // show where the player will be next frame
@@ -68,13 +68,21 @@ class Pipes {
   int[] pipeList = new int[120];
   int pipeGap = 2;
   NumberSource heightNumbers;
+  NumberSource distanceNumbers;
+  int ticksTilNextPipe;
   
   Pipes() {
     //heightNumbers = new NoiseNumberSource(1, 23);
     heightNumbers = new RandomNumberSource(1, 23);
-    for(int i = 12; i < pipeList.length; i += 12) {
+    
+    distanceNumbers = new RandomNumberSource(10,20);
+    
+    int i;
+    for(i = 16; i < pipeList.length; i += distanceNumbers.getNext()) {
       pipeList[i] = heightNumbers.getNext();
     }
+    
+    ticksTilNextPipe = i - pipeList.length;
   }
   
   void draw(Console console) {
@@ -91,10 +99,17 @@ class Pipes {
   }
 
   void advance () {
-    for(int i = 1; i < pipeList.length - 1; i++) {
+    for(int i = 1; i < pipeList.length; i++) {
       pipeList[i-1] = pipeList[i];
     }
-    pipeList[pipeList.length-1] = 0;
+    
+    ticksTilNextPipe--;
+    if(ticksTilNextPipe <= 0) {
+      ticksTilNextPipe = distanceNumbers.getNext();
+      pipeList[pipeList.length-1] = heightNumbers.getNext();
+    } else {
+      pipeList[pipeList.length-1] = 0;
+    }
   }
   
   boolean collided(Hero hero) {
@@ -282,7 +297,7 @@ void updateTheWorld() {
   hero.physicsTick();
   pipes.advance();
   
-  checkCollisions();
+  //checkCollisions();
 }
 
 void checkCollisions() {
