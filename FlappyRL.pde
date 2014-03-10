@@ -70,7 +70,8 @@ class Pipes {
   NumberSource heightNumbers;
   
   Pipes() {
-    heightNumbers = new NoiseNumberSource(1, 23);
+    //heightNumbers = new NoiseNumberSource(1, 23);
+    heightNumbers = new RandomNumberSource(1, 23);
     for(int i = 12; i < pipeList.length; i += 12) {
       pipeList[i] = heightNumbers.getNext();
     }
@@ -168,6 +169,20 @@ class NoiseNumberSource implements NumberSource {
   int getNext() {
     offset += step;
     return (int)(range * noise(offset) + min);
+  }
+}
+
+class RandomNumberSource implements NumberSource {
+  int min;
+  int max;
+  
+  RandomNumberSource(int min, int max) {
+    this.min = min;
+    this.max = max;
+  }
+  
+  int getNext() {
+    return (int)(random(min,max));
   }
 }
 
