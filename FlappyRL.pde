@@ -1,6 +1,5 @@
 /*
 TODO:
-  - Generate pipes with different-height openings
   - Generate pipes at different spacings
   - Keep score
   - Draw the pipes a little nicer (vertical sections with caps)
@@ -68,10 +67,12 @@ class Hero {
 class Pipes {
   int[] pipeList = new int[120];
   int pipeGap = 2;
+  NumberSource heightNumbers;
   
   Pipes() {
+    heightNumbers = new NoiseNumberSource(1, 23);
     for(int i = 12; i < pipeList.length; i += 12) {
-      pipeList[i] = 17;
+      pipeList[i] = heightNumbers.getNext();
     }
   }
   
@@ -142,6 +143,31 @@ class Console {
   
   void print(String s, int col, int row) {
     text(s, colToPixel(col), rowToPixel(row));
+  }
+}
+
+interface NumberSource {
+  int getNext();
+}
+
+class NoiseNumberSource implements NumberSource {
+  // from Processing docs: Perlin noise source works best
+  // with a step between 0.005 and 0.03 for most applications
+  float step = 0.1;
+  float offset = 0.0;
+  float min;
+  float max;
+  float range;
+  
+  NoiseNumberSource(int min, int max) {
+    this.min = (float)min;
+    this.max = (float)max;
+    range = max - min;
+  }
+  
+  int getNext() {
+    offset += step;
+    return (int)(range * noise(offset) + min);
   }
 }
 
