@@ -164,6 +164,8 @@ void draw() {
   }
   
   pipes.draw(console);
+  drawGround();
+  
   if(state == GameState.ALIVE) {
     hero.draw(console);
   } else {
@@ -177,6 +179,13 @@ void draw() {
   }
 }
 
+void drawGround() {
+  fill(0,127,0);
+  for(int i = 0; i < console.columns + 1; i++) {
+    console.print("_", i, console.rows - 1);
+  }
+}
+
 void keyPressed() {
   lastKeyCode = keyCode;
   
@@ -187,7 +196,7 @@ void keyPressed() {
         break;
         
       case 38:  // up arrow
-        hero.yVeloc -= 2;
+        hero.yVeloc = -2;
         updateTheWorld();
         break;
     }
