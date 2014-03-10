@@ -13,7 +13,8 @@ class Hero {
   }
   
   void draw(Console console) {
-    fill(0,0,255);
+    //fill(0,0,255);
+    fill(255,0,255);  // temporary - f.lux hides the character
     console.print("@",xPos,yPos);
     
     // show where the player will be next frame
@@ -48,20 +49,21 @@ class Hero {
 }
 
 class Pipes {
-  int[] pipes = new int[120];
+  int[] pipeList = new int[120];
+  int pipeGap = 2;
   
   Pipes() {
-    for(int i = 12; i < pipes.length; i += 12) {
-      pipes[i] = 17;
+    for(int i = 12; i < pipeList.length; i += 12) {
+      pipeList[i] = 17;
     }
   }
   
   void draw(Console console) {
     fill(0,255,0);
     for(int i = 0; i < console.columns + 1; i++) {
-      if(pipes[i] > 0) {
+      if(pipeList[i] > 0) {
         for(int j = 0; j < console.rows; j++) {
-          if(Math.abs(pipes[i] - j) > 1) {
+          if(Math.abs(pipeList[i] - j) >= pipeGap) {
             console.print("=",i,j);
           }
         }
@@ -70,10 +72,19 @@ class Pipes {
   }
 
   void advance () {
-    for(int i = 1; i < pipes.length - 1; i++) {
-      pipes[i-1] = pipes[i];
+    for(int i = 1; i < pipeList.length - 1; i++) {
+      pipeList[i-1] = pipeList[i];
     }
-    pipes[pipes.length-1] = 0;
+    pipeList[pipeList.length-1] = 0;
+  }
+  
+  boolean collided(Hero hero) {
+    if(pipeList[hero.xPos] != 0) {
+      if(Math.abs(pipeList[hero.xPos] - hero.yPos) >= pipeGap) {
+        return true;
+      }
+    }
+    return false;
   }
 }
 
@@ -159,7 +170,7 @@ void keyPressed() {
       break;
       
     case 38:  // up arrow
-      hero.yVeloc = -4;
+      hero.yVeloc -= 2;
       updateTheWorld();
       break;
   }
@@ -168,4 +179,19 @@ void keyPressed() {
 void updateTheWorld() {
   hero.physicsTick();
   pipes.advance();
+  
+  checkCollisions();
+}
+
+void checkCollisions() {
+  if(hero.yPos >= console.rows) {
+    // crashed into ground
+    println("crashed into ground");
+  } else if(hero.yPos < 0) {
+    // soared off top
+    println("soared into the sun");
+  } else if(pipes.collided(hero)) {
+    // collided with a pipe
+    println("hit a pipe");
+  }
 }
