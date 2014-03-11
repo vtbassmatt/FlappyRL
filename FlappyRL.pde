@@ -1,6 +1,7 @@
 /* @pjs globalKeyEvents="true"; */
 
 static final boolean DEBUG = false;
+static final String VERSION = "1.0.0.0";
 
 boolean PROCESSING_JS = (""+2.0==""+2);
 
