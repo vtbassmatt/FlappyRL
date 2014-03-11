@@ -1,6 +1,6 @@
 /* @pjs globalKeyEvents="true"; */
 
-static final boolean DEBUG = true;
+static final boolean DEBUG = false;
 
 boolean PROCESSING_JS = (""+2.0==""+2);
 
