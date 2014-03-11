@@ -1,4 +1,4 @@
-class Background {
+class Backdrop {
   int[] cloudList = new int[120];
   NumberSource heightNumbers;
   NumberSource distanceNumbers;
@@ -9,7 +9,7 @@ class Background {
   color cloudColor1 = color(240);
   color cloudColor2 = color(40);
   
-  Background(int depth) {
+  Backdrop(int depth) {
     distanceNumbers = new NoiseNumberSource(5,20);
     heightNumbers = new RandomNumberSource(1,20);
     

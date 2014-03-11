@@ -10,7 +10,7 @@ Hero hero;
 Pipes pipes;
 Console console;
 Tombstone tombstone;
-Background[] background;
+Backdrop[] backdrop;
 int state;
 int playerScore;
 String causeOfDeath;
@@ -26,7 +26,7 @@ void setup() {
   pipes = new Pipes();
   console = new Console();
   tombstone = new Tombstone(hero);
-  background = new Background[] { new Background(2), new Background(3) };
+  backdrop = new Backdrop[] { new Backdrop(2), new Backdrop(3) };
   playerScore = 0;
   causeOfDeath = "a glitch in the matrix";
   
@@ -57,8 +57,8 @@ void draw() {
       }
   } else {
   
-    for(int i = 0; i < background.length; i++) {
-      background[i].draw(console);
+    for(int i = 0; i < backdrop.length; i++) {
+      backdrop[i].draw(console);
     }
     
     pipes.draw(console);
@@ -119,8 +119,8 @@ void keyPressed() {
 void updateTheWorld() {
   hero.physicsTick();
   pipes.advance();
-  for(int i = 0; i < background.length; i++) {
-    background[i].advance();
+  for(int i = 0; i < backdrop.length; i++) {
+    backdrop[i].advance();
   }
   
   checkCollisions();
