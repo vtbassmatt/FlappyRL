@@ -14,7 +14,11 @@ class Console {
     marginLeft = 6;
     
     fontSize = 16;
-    font = loadFont("Menlo-Regular-16.vlw");
+    if(PROCESSING_JS) {
+      font = createFont("monospace",fontSize);
+    } else {
+      font = loadFont("Menlo-Regular-16.vlw");
+    }
     textFont(font);
 
     // figure out width of a character + space between characters

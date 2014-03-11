@@ -1,4 +1,8 @@
+/* @pjs globalKeyEvents="true"; */
+
 static final boolean DEBUG = true;
+
+boolean PROCESSING_JS = (""+2.0==""+2);
 
 static class GameState {
   static final int NOT_STARTED = 0;
