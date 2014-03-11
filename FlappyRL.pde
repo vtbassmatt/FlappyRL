@@ -1,6 +1,5 @@
 /*
 TODO:
-  - Generate parallax scrolling background
   - Make some pipes fatter than others
   - Animate the main character?
   - Add spells/potions/monsters?
@@ -16,6 +15,7 @@ Hero hero;
 Pipes pipes;
 Console console;
 Tombstone tombstone;
+Background background;
 int state;
 int playerScore;
 String causeOfDeath;
@@ -29,6 +29,7 @@ void setup() {
   pipes = new Pipes();
   console = new Console();
   tombstone = new Tombstone(hero);
+  background = new Background(2);
   playerScore = 0;
   causeOfDeath = "a glitch in the matrix";
   
@@ -58,10 +59,11 @@ void draw() {
   } else {
   
     // hello world
-    fill(127,0,0);
-    for(int i = 0; i < console.rows; i++) {
-      console.print("Hello FlappyRL",i,i);
-    }
+    //fill(127,0,0);
+    //for(int i = 0; i < console.rows; i++) {
+    //  console.print("Hello FlappyRL",i,i);
+    //}
+    background.draw(console);
     
     pipes.draw(console);
     drawGround();
@@ -119,6 +121,7 @@ void keyPressed() {
 void updateTheWorld() {
   hero.physicsTick();
   pipes.advance();
+  background.advance();
   
   checkCollisions();
   checkScore();
