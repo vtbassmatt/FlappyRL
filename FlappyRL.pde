@@ -1,7 +1,6 @@
 /*
 TODO:
   - Generate parallax scrolling background
-  - Show a tombstone when dead
   - Make some pipes fatter than others
   - Animate the main character?
   - Add spells/potions/monsters?
@@ -16,6 +15,7 @@ static class GameState {
 Hero hero;
 Pipes pipes;
 Console console;
+Tombstone tombstone;
 int state;
 int playerScore;
 String causeOfDeath;
@@ -28,6 +28,7 @@ void setup() {
   hero = new Hero();
   pipes = new Pipes();
   console = new Console();
+  tombstone = new Tombstone(hero);
   playerScore = 0;
   causeOfDeath = "a glitch in the matrix";
   
@@ -71,6 +72,7 @@ void draw() {
       fill(200,0,0);
       console.print("You are dead", console.columns / 2 - 6, console.rows / 2);
       console.print("(" + causeOfDeath + ")", console.columns / 2 - (causeOfDeath.length() / 2 + 1), console.rows / 2 + 1);
+      tombstone.draw(console);
     }
 
   }
