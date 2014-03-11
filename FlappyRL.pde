@@ -1,3 +1,5 @@
+static final boolean DEBUG = true;
+
 static class GameState {
   static final int NOT_STARTED = 0;
   static final int ALIVE = 1;
@@ -30,8 +32,10 @@ void setup() {
   
   lastKeyCode = 0;
   
-  // comment this line to cause the title screen to appear
-  //state = GameState.ALIVE;
+  if(DEBUG) {
+    // skip the title screen in debug mode
+    state = GameState.ALIVE;
+  }
 }
 
 void draw() {
@@ -76,9 +80,11 @@ void draw() {
   console.print("score: " + Integer.toString(playerScore),0,0);
   
   // debugging
-  if(lastKeyCode > 0) {
-    fill(127);
-    console.print(Integer.toString(lastKeyCode),76,0);
+  if(DEBUG) {
+    if(lastKeyCode > 0) {
+      fill(127);
+      console.print(Integer.toString(lastKeyCode),76,0);
+    }
   }
 }
 
