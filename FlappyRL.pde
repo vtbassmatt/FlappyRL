@@ -1,7 +1,6 @@
 /*
 TODO:
   - Make some pipes fatter than others
-  - Animate the main character?
   - Add spells/potions/monsters?
 */
 
@@ -24,6 +23,8 @@ String causeOfDeath;
 int lastKeyCode;
 
 void setup() {
+  frameRate(30);
+  
   state = GameState.NOT_STARTED;
   hero = new Hero();
   pipes = new Pipes();

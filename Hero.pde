@@ -4,6 +4,10 @@ class Hero {
   int yVeloc;
   int yPos;
   int xPos;
+  
+  color mainColor = color(0,0,255);
+  //color mainColor = color(255,0,255);  // for use during f.lux nighttime
+  color pulseColor = color(0,127,255);
 
   Hero() {
     yAccel = 1;
@@ -13,8 +17,8 @@ class Hero {
   }
   
   void draw(Console console) {
-    fill(0,0,255);
-    //fill(255,0,255);  // temporary - f.lux hides the character
+    fill(lerpColor(mainColor, pulseColor, colorPulsePosition()));
+
     console.print("@",xPos,yPos);
     
     // show where the player will be next frame
