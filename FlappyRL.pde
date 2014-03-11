@@ -101,10 +101,12 @@ void keyPressed() {
   if(state == GameState.ALIVE) {
     switch(keyCode) {
       case 39:  // right arrow
+      case 65:  // A for advance
         updateTheWorld();
         break;
         
       case 38:  // up arrow
+      case 70:  // F for flap
         hero.yVeloc = -2;
         updateTheWorld();
         break;
