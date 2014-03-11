@@ -15,7 +15,7 @@ Hero hero;
 Pipes pipes;
 Console console;
 Tombstone tombstone;
-Background background;
+Background[] background;
 int state;
 int playerScore;
 String causeOfDeath;
@@ -29,7 +29,7 @@ void setup() {
   pipes = new Pipes();
   console = new Console();
   tombstone = new Tombstone(hero);
-  background = new Background(2);
+  background = new Background[] { new Background(2), new Background(3) };
   playerScore = 0;
   causeOfDeath = "a glitch in the matrix";
   
@@ -63,7 +63,9 @@ void draw() {
     //for(int i = 0; i < console.rows; i++) {
     //  console.print("Hello FlappyRL",i,i);
     //}
-    background.draw(console);
+    for(int i = 0; i < background.length; i++) {
+      background[i].draw(console);
+    }
     
     pipes.draw(console);
     drawGround();
@@ -121,7 +123,9 @@ void keyPressed() {
 void updateTheWorld() {
   hero.physicsTick();
   pipes.advance();
-  background.advance();
+  for(int i = 0; i < background.length; i++) {
+    background[i].advance();
+  }
   
   checkCollisions();
   checkScore();
