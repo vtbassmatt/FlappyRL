@@ -1,9 +1,3 @@
-/*
-TODO:
-  - Make some pipes fatter than others
-  - Add spells/potions/monsters?
-*/
-
 static class GameState {
   static final int NOT_STARTED = 0;
   static final int ALIVE = 1;
@@ -36,15 +30,15 @@ void setup() {
   
   lastKeyCode = 0;
   
-  // temporary: remove this line to bring back the title screen
-  state = GameState.ALIVE;
+  // comment this line to cause the title screen to appear
+  //state = GameState.ALIVE;
 }
 
 void draw() {
   background(15);
   
   if(state == GameState.NOT_STARTED) {
-      fill(0,200,0);
+      fill(lerpColor(color(0,255,0), color(0,200,0), colorPulsePosition(2.0)));
       String[] instructions = {
         "Welcome to FlappyRL.",
         "",
@@ -59,11 +53,6 @@ void draw() {
       }
   } else {
   
-    // hello world
-    //fill(127,0,0);
-    //for(int i = 0; i < console.rows; i++) {
-    //  console.print("Hello FlappyRL",i,i);
-    //}
     for(int i = 0; i < background.length; i++) {
       background[i].draw(console);
     }
