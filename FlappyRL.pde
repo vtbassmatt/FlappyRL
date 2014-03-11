@@ -1,6 +1,5 @@
 /*
 TODO:
-  - Keep score
   - Draw the pipes a little nicer (vertical sections with caps)
   - Generate parallax scrolling background
   - Make some pipes fatter than others
@@ -120,6 +119,15 @@ class Pipes {
     }
     return false;
   }
+  
+  int scorePoints(Hero hero) {
+    if(pipeList[hero.xPos] != 0) {
+      if(Math.abs(pipeList[hero.xPos] - hero.yPos) < pipeGap) {
+        return 1;
+      }
+    }
+    return 0;
+  }
 }
 
 // display
@@ -205,6 +213,7 @@ Hero hero;
 Pipes pipes;
 Console console;
 int state;
+int playerScore;
 
 // debugging
 int lastKeyCode;
@@ -214,6 +223,7 @@ void setup() {
   hero = new Hero();
   pipes = new Pipes();
   console = new Console();
+  playerScore = 0;
   
   lastKeyCode = 0;
   
@@ -258,10 +268,14 @@ void draw() {
 
   }
   
+  // score
+  fill(255);
+  console.print("score: " + Integer.toString(playerScore),0,0);
+  
   // debugging
   if(lastKeyCode > 0) {
     fill(127);
-    console.print(Integer.toString(lastKeyCode),0,0);
+    console.print(Integer.toString(lastKeyCode),76,0);
   }
 }
 
@@ -297,7 +311,8 @@ void updateTheWorld() {
   hero.physicsTick();
   pipes.advance();
   
-  //checkCollisions();
+  checkCollisions();
+  checkScore();
 }
 
 void checkCollisions() {
@@ -313,5 +328,12 @@ void checkCollisions() {
     // collided with a pipe
     println("hit a pipe");
     state = GameState.DEAD;
+  }
+}
+
+void checkScore() {
+  int points = pipes.scorePoints(hero);
+  if(points > 0) {
+    playerScore += points;
   }
 }
