@@ -37,10 +37,10 @@ class RandomNumberSource implements NumberSource {
   }
 }
 
-float colorPulsePosition() {  
-    float frameOfSecond = frameCount % frameRate;
-    float position = frameOfSecond / frameRate;
-    float sinPosition = sin(TWO_PI * position);
+float colorPulsePosition(float duration) {  
+    float frameOfPeriod = frameCount % (frameRate * duration);
+    float position = frameOfPeriod / (frameRate * duration);
+    float sinPosition = sin(PI * position);
     
     return abs(sinPosition);
 }

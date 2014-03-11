@@ -17,7 +17,7 @@ class Hero {
   }
   
   void draw(Console console) {
-    fill(lerpColor(mainColor, pulseColor, colorPulsePosition()));
+    fill(lerpColor(mainColor, pulseColor, colorPulsePosition(1.0)));
 
     console.print("@",xPos,yPos);
     
