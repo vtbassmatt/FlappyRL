@@ -41,7 +41,7 @@ void setup() {
 }
 
 void draw() {
-  background(0);
+  background(15);
   
   if(state == GameState.NOT_STARTED) {
       fill(0,200,0);

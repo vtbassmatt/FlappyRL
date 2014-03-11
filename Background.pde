@@ -6,8 +6,11 @@ class Background {
   int depth;
   int ticksTilNextAdvance;
   
+  color cloudColor1 = color(240);
+  color cloudColor2 = color(40);
+  
   Background(int depth) {
-    distanceNumbers = new NoiseNumberSource(10, 30);
+    distanceNumbers = new NoiseNumberSource(5,20);
     heightNumbers = new RandomNumberSource(1,20);
     
     int i;
@@ -22,9 +25,9 @@ class Background {
   }
   
   void draw(Console console) {
-    fill(210);
     for(int i = 0; i < console.columns + 1; i++) {
       if(cloudList[i] > 0) {
+        fill(lerpColor(cloudColor1, cloudColor2, colorPulsePosition(24 - cloudList[i])));
         console.print("~",i,cloudList[i]);
       }
     }
