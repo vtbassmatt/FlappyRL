@@ -1,9 +1,11 @@
 class Pipes {
   int[] pipeList = new int[120];
   int pipeGap = 2;
+  int allowedHeightDelta = 12;
   NumberSource heightNumbers;
   NumberSource distanceNumbers;
   int ticksTilNextPipe;
+  int lastPipeHeight;
   
   Pipes() {
     //heightNumbers = new NoiseNumberSource(1, 23);
@@ -11,9 +13,18 @@ class Pipes {
     
     distanceNumbers = new RandomNumberSource(10,20);
     
+    // pretend the last pipe was at height 12 - middle of the screen
+    lastPipeHeight = 12;
     int i;
     for(i = 16; i < pipeList.length; i += distanceNumbers.getNext()) {
       pipeList[i] = heightNumbers.getNext();
+      
+      // ensure we didn't create an impossible situation
+      while(abs(lastPipeHeight - pipeList[i]) > allowedHeightDelta) {
+        pipeList[i] = heightNumbers.getNext();
+      }
+      
+      lastPipeHeight = pipeList[i];
     }
     
     ticksTilNextPipe = i - pipeList.length;
@@ -43,6 +54,13 @@ class Pipes {
     if(ticksTilNextPipe <= 0) {
       ticksTilNextPipe = distanceNumbers.getNext();
       pipeList[pipeList.length-1] = heightNumbers.getNext();
+
+      // ensure we didn't create an impossible situation
+      while(abs(lastPipeHeight - pipeList[pipeList.length-1]) > allowedHeightDelta) {
+        pipeList[pipeList.length-1] = heightNumbers.getNext();
+      }
+      lastPipeHeight = pipeList[pipeList.length-1];
+      
     } else {
       pipeList[pipeList.length-1] = 0;
     }
@@ -59,6 +77,9 @@ class Pipes {
   
   int scorePoints(Hero hero) {
     if(pipeList[hero.xPos] != 0) {
+      if(DEBUG) {
+        println("height: " + pipeList[hero.xPos]);
+      }
       if(Math.abs(pipeList[hero.xPos] - hero.yPos) < pipeGap) {
         return 1;
       }

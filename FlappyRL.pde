@@ -1,7 +1,7 @@
 /* @pjs globalKeyEvents="true"; */
 
 static final boolean DEBUG = false;
-static final String VERSION = "1.0.0.0";
+static final String VERSION = "1.0.1.0";
 
 boolean PROCESSING_JS = (""+2.0==""+2);
 
@@ -64,6 +64,8 @@ void draw() {
         String instruc = instructions[i];
         console.print(instruc, (console.columns / 2) - (instruc.length() / 2), (console.rows / 2) + i - (instructions.length / 2));
       }
+      fill(127);
+      console.print(VERSION, 0, console.rows - 1);
   } else {
   
     for(int i = 0; i < backdrop.length; i++) {
