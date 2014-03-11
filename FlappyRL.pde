@@ -23,6 +23,10 @@ String causeOfDeath;
 int lastKeyCode;
 
 void setup() {
+  // we have to cheat, because Processing.JS requires that size() be the first call in setup()
+  if(PROCESSING_JS) {
+    size(800, 438);
+  }
   frameRate(30);
   
   state = GameState.NOT_STARTED;

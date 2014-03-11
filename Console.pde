@@ -27,6 +27,10 @@ class Console {
     atSignWidth = (int)(w2 - w1);
     
     size(atSignWidth * columns, (fontSize + 2) * rows + marginBottom);
+    if(DEBUG) {
+      if(width != 800) { println("expected width 800, got " + width); }
+      if(height != 438) { println("expected height 438, got " + height); }
+    }
   }
   
   int rowToPixel(int row) {
