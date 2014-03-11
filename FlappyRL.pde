@@ -1,6 +1,6 @@
 /*
 TODO:
-  - Draw the pipes a little nicer (vertical sections with caps)
+  - Give better messages upon death
   - Generate parallax scrolling background
   - Make some pipes fatter than others
   - Animate the main character?
@@ -89,7 +89,9 @@ class Pipes {
     for(int i = 0; i < console.columns + 1; i++) {
       if(pipeList[i] > 0) {
         for(int j = 0; j < console.rows; j++) {
-          if(Math.abs(pipeList[i] - j) >= pipeGap) {
+          if(Math.abs(pipeList[i] - j) > pipeGap) {
+            console.print("|",i,j);
+          } else if(Math.abs(pipeList[i] - j) == pipeGap) {
             console.print("=",i,j);
           }
         }
