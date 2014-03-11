@@ -1,7 +1,7 @@
 /*
 TODO:
-  - Give better messages upon death
   - Generate parallax scrolling background
+  - Show a tombstone when dead
   - Make some pipes fatter than others
   - Animate the main character?
   - Add spells/potions/monsters?
@@ -18,6 +18,7 @@ Pipes pipes;
 Console console;
 int state;
 int playerScore;
+String causeOfDeath;
 
 // debugging
 int lastKeyCode;
@@ -28,6 +29,7 @@ void setup() {
   pipes = new Pipes();
   console = new Console();
   playerScore = 0;
+  causeOfDeath = "a glitch in the matrix";
   
   lastKeyCode = 0;
   
@@ -68,6 +70,7 @@ void draw() {
     } else {
       fill(200,0,0);
       console.print("You are dead", console.columns / 2 - 6, console.rows / 2);
+      console.print("(" + causeOfDeath + ")", console.columns / 2 - (causeOfDeath.length() / 2 + 1), console.rows / 2 + 1);
     }
 
   }
@@ -122,15 +125,15 @@ void updateTheWorld() {
 void checkCollisions() {
   if(hero.yPos >= console.rows) {
     // crashed into ground
-    println("crashed into ground");
+    causeOfDeath = "crashed into ground";
     state = GameState.DEAD;
   } else if(hero.yPos < 0) {
     // soared off top
-    println("soared into the sun");
+    causeOfDeath = "soared into the sun";
     state = GameState.DEAD;
   } else if(pipes.collided(hero)) {
     // collided with a pipe
-    println("hit a pipe");
+    causeOfDeath = "hit a pipe";
     state = GameState.DEAD;
   }
 }
