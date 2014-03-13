@@ -66,6 +66,7 @@ function getProcessingSketchId () { return 'FlappyRL'; }
 					<p>JavaScript is required to view the contents of this page.</p>
 				</noscript>
 	    	</div>
+	    	<div><button id="flap">Flap</button> <button id="advance">Advance</button> <button id="spacebar">Spacebar</button></div>
 			<h1>FlappyRL</h1>
     		<p id="description"></p>
 			<p id="sources">Source code: <a href="FlappyRL.pde">FlappyRL</a> <a href="JSFills.js">JSFills.js</a> </p>
@@ -74,5 +75,29 @@ function getProcessingSketchId () { return 'FlappyRL'; }
 			and <a href="http://processingjs.org" title="Processing.js">Processing.js</a>
 			</p>
 		</div>
+		<script>
+			var sketch;
+			function tryToBind() {
+				sketch = Processing.getInstanceById(getProcessingSketchId());
+				if(sketch == null) {
+					setTimeout(tryToBind, 250);
+				}
+			}
+			tryToBind();
+			
+			document.getElementById("flap").addEventListener("click", function () {
+				// this is super hacky - there might be a better way
+				sketch.keyCode = 70;
+				sketch.keyPressed();
+			});
+			document.getElementById("advance").addEventListener("click", function () {
+				sketch.keyCode = 65;
+				sketch.keyPressed();
+			});
+			document.getElementById("spacebar").addEventListener("click", function () {
+				sketch.keyCode = 32;
+				sketch.keyPressed();
+			});
+		</script>
 	</body>
 </html>
