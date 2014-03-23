@@ -1,7 +1,7 @@
 /* @pjs globalKeyEvents="true"; */
 
 static final boolean DEBUG = false;
-static final String VERSION = "1.0.2.0";
+static final String VERSION = "1.0.2.1";
 
 boolean PROCESSING_JS = (""+2.0==""+2);
 
@@ -79,8 +79,9 @@ void draw() {
       hero.draw(console);
     } else {
       fill(200,0,0);
-      console.print("You are dead", console.columns / 2 - 6, console.rows / 2);
-      console.print("(" + causeOfDeath + ")", console.columns / 2 - (causeOfDeath.length() / 2 + 1), console.rows / 2 + 1);
+      console.print("You are dead", console.columns / 2 - 6, console.rows / 2 - 1);
+      console.print("(" + causeOfDeath + ")", console.columns / 2 - (causeOfDeath.length() / 2 + 1), console.rows / 2);
+      console.print("Press spacebar to try again", console.columns / 2 - 13, console.rows / 2 + 1);
       tombstone.draw(console);
     }
 
@@ -124,6 +125,11 @@ void keyPressed() {
     }
   } else if(state == GameState.NOT_STARTED) {
     if(keyCode == 32) {
+      state = GameState.ALIVE;
+    }
+  } else if(state == GameState.DEAD) {
+    if(keyCode == 32) {
+      setup();
       state = GameState.ALIVE;
     }
   }
